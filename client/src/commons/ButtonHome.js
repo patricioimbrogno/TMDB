@@ -5,6 +5,9 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSearch } from "../state/search";
+
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -53,7 +56,7 @@ const ButtonHome = ({type, popularMovie, popularTV, rankingMovie, rankingTV, est
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  
+  const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,6 +65,7 @@ const ButtonHome = ({type, popularMovie, popularTV, rankingMovie, rankingTV, est
   };
 
   const handleFilter = (type, filter) => {
+    dispatch(setSearch([]))
     navigate(`/${type}/${filter}`)
   };
 
