@@ -1,6 +1,6 @@
 
 import { createAction, createReducer } from "@reduxjs/toolkit";
-export const setUser = createAction("SET_USUARIO");
+export const setUsuario = createAction("SET_USUARIO");
 export const logOut = createAction("LOG_OUT");
 export const addToFavs = createAction("ADD_TO_FAVORITES");
 export const removeFromFavs = createAction("REMOVE_FROM_FAVORITES");
@@ -12,7 +12,7 @@ const initialState = {
   };
 
   export default createReducer(initialState, {
-    [setUser]: (state, action) => {
+    [setUsuario]: (state, action) => {
         return {...state, user: action.payload, loggedInUser:true, favorites: [] }
     },
     [logOut]:(state, action) => {

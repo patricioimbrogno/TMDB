@@ -40,7 +40,7 @@ const UserPage = () => {
             ¡Hola, {users.user.user}!
           </Typography>
           <Typography variant="h6" color="white">
-            Todavía no agregaste películas o programas de TV a tus favoritos
+            No tenés películas o programas de TV en tus favoritos
           </Typography>
           <Box
             sx={{

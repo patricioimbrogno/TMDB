@@ -7,52 +7,44 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
-import { setUser } from "../state/user";
+import { setUsuario } from "../state/user";
 
 
 const LogIn = () => {
-
-  const users = useSelector(state => state.users)
+  const initialState = { email: "", password: ""};
+  const [user, setUser] = useState(initialState)
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const users = useSelector(state => state.users)
 
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClick = () => {
+    setOpen(!open);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const handleInput = (e) => {
+    const inputName = e.target.id;
+    const inputValue = e.target.value;
+    setUser({ ...user, [inputName]: inputValue });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleClose();
+    handleClick();
     axios
-      .post("/api/users/login", { email, password })
-      .then((user) => dispatch(setUser(user.data)))
+      .post("/api/users/login", user)
+      .then((userData) => dispatch(setUsuario(userData.data)))
       .catch(() => alert('Los datos ingresados no son correctos'));
   };
 
-
   return (
     <div>
-      {!users.loggedInUser?( <Button variant="outlined" onClick={handleClickOpen}>
+      {!users.loggedInUser?( <Button variant="outlined" onClick={handleClick}>
         Iniciar sesión
       </Button>):(<Button variant="outlined">
         {users.user.user}
       </Button>)}
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClick}>
         <DialogTitle> Ingrese su mail y contraseña</DialogTitle>
         <DialogContent>
           <TextField
@@ -61,26 +53,26 @@ const LogIn = () => {
             id="email"
             label="Email"
             type="email"
-            value={email}
+            value={user.email}
             fullWidth
             variant="standard"
-            onChange={handleEmail}
+            onChange={handleInput}
           />
 
           <TextField
             margin="dense"
-            value={password}
+            value={user.password}
             id="password"
             label="Contraseña"
             type="password"
             fullWidth
             variant="standard"
-            onChange={handlePassword}
+            onChange={handleInput}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleSubmit}>Ingresar</Button>
-          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleClick}>Cancelar</Button>
         </DialogActions>
       </Dialog>
     </div>

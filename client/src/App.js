@@ -5,7 +5,7 @@ import Content from "./components/Content";
 import Home from "./components/Home";
 import SinglePage from "./components/SinglePage";
 import UserPage from "./components/UserPage";
-import { setUser } from "./state/user";
+import { setUsuario } from "./state/user";
 import { Route, Routes } from "react-router";
 import { useDispatch } from "react-redux";
 
@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get("/api/users/me")
-      .then((user) => dispatch(setUser(user.data)))
+      .then((user) => dispatch(setUsuario(user.data)))
       .catch((err) => {
         console.log(err);
       });

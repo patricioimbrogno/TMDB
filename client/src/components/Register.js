@@ -9,36 +9,26 @@ import {
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setUser } from "../state/user";
+import { setUsuario } from "../state/user";
 
 
 const Register = () => {
+  const initialState = { user: "", email: "", password: ""};
   const [open, setOpen] = useState(false);
-  const [userRegistrado, setUserRegistrado] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newUser, setNewUser] = useState(initialState)
   const [repeatPassword, setRepeatPassword] = useState("");
   const dispatch = useDispatch();
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClick = () => {
+    setOpen(!open);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleInput = (e) => {
+    const inputName = e.target.id;
+    const inputValue = e.target.value;
+    setNewUser({ ...newUser, [inputName]: inputValue });
+  }
 
-  const handleUser = (e) => {
-    setUserRegistrado(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
 
   const handleRepeatPassword = (e) => {
     setRepeatPassword(e.target.value);
@@ -46,11 +36,11 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
-      handleClose();
+    if (newUser.password === repeatPassword) {
+      handleClick()
       axios
-        .post("/api/users", { user:userRegistrado, email, password })
-        .then((user) => dispatch(setUser(user.data)))
+        .post("/api/users", newUser)
+        .then((userInfo) => dispatch(setUsuario(userInfo.data)))
         .catch((err) => console.log(err))
     } else {
       alert("Las contraseñas no coinciden");
@@ -59,35 +49,41 @@ const Register = () => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClick}>
         Registrarse
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClick}>
         <DialogTitle> Complete sus datos de registro</DialogTitle>
         <DialogContent>
           <TextField
-            onChange={handleUser}
+            onChange={handleInput}
             autoFocus
             margin="dense"
             id="user"
+            name="user"
             label="Usuario"
+            value={newUser.user}
             type="text"
             fullWidth
             variant="standard"
           />
           <TextField
-            onChange={handleEmail}
+            onChange={handleInput}
             margin="dense"
             id="email"
+            name="email"
+            value={newUser.email}
             label="Email"
             type="text"
             fullWidth
             variant="standard"
           />
           <TextField
-            onChange={handlePassword}
+            onChange={handleInput}
             margin="dense"
+            value={newUser.password}
             id="password"
+            name="password"
             label="Contraseña"
             type="password"
             fullWidth
@@ -107,7 +103,7 @@ const Register = () => {
           <Button type="submit" onClick={handleSubmit}>
             Registrarse
           </Button>
-          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleClick}>Cancelar</Button>
         </DialogActions>
       </Dialog>
     </div>

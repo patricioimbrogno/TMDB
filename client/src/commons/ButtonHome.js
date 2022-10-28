@@ -61,27 +61,10 @@ const ButtonHome = ({type, popularMovie, popularTV, rankingMovie, rankingTV, est
     setAnchorEl(null);
   };
 
-  const handlePopularMovie = () => {
-    navigate('/movie/popular')
+  const handleFilter = (type, filter) => {
+    navigate(`/${type}/${filter}`)
   };
-  const handlePopularTV = () => {
-    navigate('/tv/popular')
-  };
-  const handleRankingMovie = () => {
-    navigate('/movie/top_rated')
-  };
-  const handleRankingTV = () => {
-    navigate('/tv/top_rated')
-  };
-  const handleEstrenoMovie = () => {
-    navigate('/movie/upcoming')
-  };
-  const handleEstrenoTV = () => {
-    navigate('/tv/on_the_air')
-  };
-  const handleCinesMovie = () => {
-    navigate('/movie/now_playing')
-  };
+
  
   return (
     <div>
@@ -106,25 +89,25 @@ const ButtonHome = ({type, popularMovie, popularTV, rankingMovie, rankingTV, est
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handlePopularMovie} disableRipple>
+        <MenuItem onClick={()=>handleFilter('movie', 'popular')} disableRipple>
           {popularMovie} 
         </MenuItem>
-        <MenuItem onClick={handlePopularTV} disableRipple>
+        <MenuItem onClick={()=>handleFilter('tv', 'popular')} disableRipple>
           {popularTV}
         </MenuItem>
-        <MenuItem onClick={handleRankingMovie} disableRipple>
+        <MenuItem onClick={()=>handleFilter('movie', 'top_rated')} disableRipple>
           {rankingMovie}
         </MenuItem>
-        <MenuItem onClick={handleRankingTV} disableRipple>
+        <MenuItem onClick={()=>handleFilter('tv', 'top_rated')} disableRipple>
           {rankingTV}
         </MenuItem>
-        <MenuItem onClick={handleEstrenoMovie} disableRipple>
+        <MenuItem onClick={()=>handleFilter('movie', 'upcoming')} disableRipple>
           {estrenoMovie}
         </MenuItem>
-        <MenuItem onClick={handleEstrenoTV} disableRipple>
+        <MenuItem onClick={()=>handleFilter('tv', 'on_the_air')} disableRipple>
           {estrenoTV}
         </MenuItem>
-        <MenuItem onClick={handleCinesMovie} disableRipple>
+        <MenuItem onClick={()=>handleFilter('movie', 'now_playing')} disableRipple>
           {cines}
         </MenuItem>
       </StyledMenu>
